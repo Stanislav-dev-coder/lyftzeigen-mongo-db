@@ -1,0 +1,20 @@
+# vi docker-compose.yml
+version: '3'
+services:
+    mongo:
+        image: mongo:latest
+        ports:
+            - '27017:27017'
+        restart: always
+        logging:
+            options:
+                max-size: 1g
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+            - MONGO_INITDB_ROOT_PASSWORD=bdung
+        networks:
+          - shared-network
+
+networks:
+  shared-network:
+    external: true
