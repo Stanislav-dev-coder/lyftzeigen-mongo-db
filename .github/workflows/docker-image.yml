@@ -55,7 +55,7 @@ jobs:
       - name: Connect and Pull
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd ~/lyftzeigen-spring-api &&
+            cd ~/lyftzeigen-mongo-db &&
             docker-compose pull &&
             docker-compose down &&
             docker image prune -f &&
