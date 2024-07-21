@@ -9,8 +9,8 @@ services:
             options:
                 max-size: 1g
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=mongoadmin
-            - MONGO_INITDB_ROOT_PASSWORD=bdung
+            - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
         networks:
           - shared-network
 
