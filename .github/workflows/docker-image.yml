@@ -1,10 +1,11 @@
-name: Docker Image CI/CD
+name: Docker Image CI / СD
 
 on:
   push:
     branches: [ "main" ]
     paths-ignore:
-      - '**/README.md'
+      -
+        '**/README.md'
   pull_request:
     branches: [ "main" ]
 
@@ -46,8 +47,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
-          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
 
       - name: Create Docker Compose config
         run: |
@@ -58,12 +57,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd ~/lyftzeigen-mongo-db &&
             docker-compose pull &&
-            docker-compose stop &&
-            while [ \$(docker ps -q -f name=mongo) ]; do
-              echo 'Waiting for MongoDB to stop...'
-              sleep 1
-            done &&
-            docker-compose down --timeout 30 &&
+            docker-compose down &&
             docker image prune -f &&
             docker-compose up -d
           "
