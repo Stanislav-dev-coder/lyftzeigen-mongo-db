@@ -9,8 +9,12 @@ services:
             options:
                 max-size: 1g
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+            - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+            - MONGO_INITDB_ROOT_PASSWORD=bdung
+        volumes:
+            - type: bind
+              source: ./data
+              target: /data/db
         networks:
           - shared-network
 
