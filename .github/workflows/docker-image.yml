@@ -1,11 +1,10 @@
-name: Docker Image CI / СD
+name: Docker Image CI/CD
 
 on:
   push:
     branches: [ "main" ]
     paths-ignore:
-      -
-        '**/README.md'
+      - '**/README.md'
   pull_request:
     branches: [ "main" ]
 
@@ -59,7 +58,12 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd ~/lyftzeigen-mongo-db &&
             docker-compose pull &&
-            docker-compose down &&
+            docker-compose stop &&
+            while [ \$(docker ps -q -f name=mongo) ]; do
+              echo 'Waiting for MongoDB to stop...'
+              sleep 1
+            done &&
+            docker-compose down --timeout 30 &&
             docker image prune -f &&
             docker-compose up -d
           "
